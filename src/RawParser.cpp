@@ -1,6 +1,5 @@
 #include "RawParser.h"
-
-const int RawParser::byteSize = 2;
+#include "FrameNumbers.h"
 
 RawParser::RawParser(std::string packet)
 {
@@ -13,18 +12,18 @@ RawParser::RawParser(std::string packet)
 
 std::string RawParser::getDestination()
 {
-    return getSubstring(packet, 16, 6 * byteSize);
+    return getSubstring(packet, FrameNumbers::DESTINATION[0], FrameNumbers::DESTINATION[1]);
 }
 
 std::string RawParser::getSource()
 {
-    return getSubstring(packet, 28, 6 * byteSize);
+    return getSubstring(packet, FrameNumbers::SOURCE[0], FrameNumbers::SOURCE[1]);
 }
 
 std::string RawParser::getFCS()
 {
-    int index = packet.size() - 4 * byteSize; // last four bytes of a packet
-    return getSubstring(packet, index, 4 * byteSize);
+    int index = packet.size() - 4 * FrameNumbers::BYTE_SIZE; // last four bytes of a packet
+    return getSubstring(packet, index, FrameNumbers::FCS[1]);
 }
 
 std::string RawParser::getSubstring(std::string packet, int index, int size)
@@ -39,7 +38,7 @@ std::string RawParser::getSubstring(std::string packet, int index, int size)
 
 std::string RawParser::getType(std::string packet)
 {
-    return getSubstring(packet, 40, 2 * byteSize);
+    return getSubstring(packet, FrameNumbers::TYPE[0], FrameNumbers::TYPE[1]);
 }
 
 EthernetPacket* RawParser::parse()

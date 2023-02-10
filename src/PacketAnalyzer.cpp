@@ -2,6 +2,7 @@
 #include "IOUtils.h"
 #include "RawParser.h"
 #include "eCEPRIParser.h"
+#include "FrameNumbers.h"
 
 PacketAnalyzer::PacketAnalyzer(std::string in, std::string out)
 {
@@ -28,7 +29,7 @@ void PacketAnalyzer::execute()
     for (std::string &thePacket : *packetString)
     {
         std::string type = RawParser::getType(thePacket);
-        if (type == "AEFE")
+        if (type == FrameNumbers::AEFE_TYPE)
             parser = new eCEPRIParser(thePacket);
         else
             parser = new RawParser(thePacket);

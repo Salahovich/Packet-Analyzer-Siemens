@@ -4,7 +4,6 @@
 
 class RawParser{
     public:
-        static const int byteSize;
         std::string packet;
        
         RawParser(std::string);
